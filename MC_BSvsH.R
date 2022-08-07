@@ -1,4 +1,5 @@
 library(readxl)
+library(scales)
 
 dir <- dirname(rstudioapi::getActiveDocumentContext()$path)
 setwd(dir)
@@ -26,9 +27,9 @@ for(i in 1:10){
     St_vec[j+1] = St_vec[j]+St_vec[j]*(r/len_path+sqrt(vol/len_path)*eps[j])
   }
   if(i==1){
-    plot(St_vec, type = "l", ylim = c(65,150), lwd = 1.5, main = "Black-Scholes")
+    plot(St_vec, type = "l", ylim = c(65,150),  main = "Black-Scholes", col = alpha("#00338D", 0.6))
   }else{
-    lines(St_vec, type = "l", lwd = 1.5)
+    lines(St_vec, type = "l",  col = alpha("#00338D", 0.6))
   }
 }
 
@@ -55,10 +56,10 @@ for(i in 1:10){
       theta*sqrt(vol_vec[j]/len_path)*epsv[j]+(theta^2)*(epsv[j]^2)/(4*len_path)
   }
   if(i==1){
-    plot(St_vec, type = "l", ylim = c(65,150), lwd = 1.5, main ="Heston")
+    plot(St_vec, type = "l", ylim = c(65,150), lwd = 1, main ="Heston", col = alpha("#00338D", 0.6))
   }else{
-    lines(St_vec, type = "l", lwd = 1.5)
+    lines(St_vec, type = "l", lwd = 1, col = alpha("#00338D", 0.6))
   }
 }
 
-plot(vol_vec, type = "l", lwd = 1.5, main="Vol Heston")
+plot(vol_vec, type = "l", lwd = 1, main="Vol Heston", col = "#00338D")
