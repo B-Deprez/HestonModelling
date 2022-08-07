@@ -1,4 +1,4 @@
-PhiHestion <- function(u,Tt,S0,r,q, v0, kappa, nu, theta, rho){
+PhiHeston <- function(u,Tt,S0,r,q, v0, kappa, nu, theta, rho){
   #The characteristic function for the Heston model
   #   V = PHIHESTON(u,T,S0,r,q, v0, kappa, nu, theta, rho) returns the value
   #   of the characteristic function where the entries can both be numeric
@@ -25,7 +25,7 @@ HestonPricer <- function(S0,Tt, q, r, v0, K, kappa, nu_H, theta, rho_H, P_C_flag
   
   j = 1:N
   k = -b + lambda*(j-1)
-  v = (j-1*nu)
+  v = (j-1)*nu
   
   # If there are duplicate greek letters, e.g., both C-M and Heston use "rho",
   # then the variables used in the characteristic function have an additional
@@ -34,11 +34,11 @@ HestonPricer <- function(S0,Tt, q, r, v0, K, kappa, nu_H, theta, rho_H, P_C_flag
   delta <- c(1, rep(0,N-1))
   A = exp(1i*v*b)*rho*nu*( (3+(-1)^j-delta)/3)
   FFTr = fft(A)
-  a = real(FFTr)
+  a = Re(FFTr)
   calls = 1/pi * exp(-alpha*k)*a #Price of a call
   prices = calls
   KK = exp(k)
   f = splinefun(KK, prices)
-  price = spline(K) -P_C_flag*(exp(-q*Tt)*S0 - exp(-r*Tt)*K); #Use Put-Call Parity to obtain the right price depending on de P_C_flag
-  
+  price = f(K) -P_C_flag*(exp(-q*Tt)*S0 - exp(-r*Tt)*K); #Use Put-Call Parity to obtain the right price depending on de P_C_flag
+  return(price)
 }
